@@ -11,7 +11,6 @@ root.render(
     <BrowserRouter>
     <ChakraProvider>  
         <App />
-        im bhumik
     </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>
