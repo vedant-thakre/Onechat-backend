@@ -10,7 +10,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
     <ChakraProvider>  
-    <App />
+        <App />
+        im bhumik
     </ChakraProvider>
     </BrowserRouter>
   </React.StrictMode>
