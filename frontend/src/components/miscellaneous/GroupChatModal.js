@@ -17,7 +17,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
-import UserListItem from "../userAvatar/UserListItem";
+import UserListItem from "../UserAvatar/UserListItem";
 
 const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
