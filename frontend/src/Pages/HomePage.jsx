@@ -26,7 +26,7 @@ const HomePage = () => {
         borderRadius="lg"
         borderWidth="1px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans" color="black">ChatLink</Text>
+        <Text fontSize="4xl" fontFamily="Work sans" color="black"> Shardings Messenger</Text>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
         <Tabs variant='soft-rounded' >
