@@ -32,3 +32,24 @@ Chat App is a web-based application that allows users to chat with each other in
 git clone https://github.com/yourusername/chat-app.git
 cd chat-app
 
+Install the dependencies for both the frontend and backend:
+
+cd frontend
+npm install
+cd ../backend
+npm install
+
+Create a .env file in the backend directory and set the required environment variables:
+
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+
+Start the development server for both frontend and backend:
+
+cd frontend
+npm start
+# Open a new terminal
+cd ../backend
+npm start
+
+Access the application in your web browser at http://localhost:3000.
