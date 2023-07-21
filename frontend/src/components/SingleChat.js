@@ -12,20 +12,53 @@ import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 
+
+
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-const ENDPOINT = "http://localhost:5000"; // "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = "http://localhost:5000"; 
 var socket, selectedChatCompare;
+
+const textFormattingOptions = ["bold", "italic", "strike", "link"]; 
+
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+    const [textFormatting, setTextFormatting] = useState([]);
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+
+    const toggleTextFormatting = (option) => {
+    setTextFormatting((prev) =>
+      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
+    );
+  };
+
+  const isFormattingSelected = (option) => textFormatting.includes(option);
+
+ const applyTextFormatting = () => {
+  let formattedText = newMessage;
+
+  if (isFormattingSelected("bold")) {
+    formattedText = `<strong>${formattedText}</strong>`;
+  }
+  if (isFormattingSelected("italic")) {
+    formattedText = `<em>${formattedText}</em>`;
+  }
+  if (isFormattingSelected("strike")) {
+    formattedText = `<s>${formattedText}</s>`;
+  }
+  if (isFormattingSelected("link")) {
+    formattedText = `<a href="${formattedText}" target="_blank">${formattedText}</a>`;
+  }
+
+  return formattedText;
+};
 
   const defaultOptions = {
     loop: true,
@@ -70,40 +103,43 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-  const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-        setNewMessage("");
-        const { data } = await axios.post(
-          "/api/message",
-          {
-            content: newMessage,
-            chatId: selectedChat,
-          },
-          config
-        );
-        socket.emit("new message", data);
-        setMessages([...messages, data]);
-      } catch (error) {
-        toast({
-          title: "Error Occured!",
-          description: "Failed to send the Message",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
-        });
-      }
+ 
+ const sendMessage = async (event) => {
+  if (event.key === "Enter" && newMessage) {
+    socket.emit("stop typing", selectedChat._id);
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const formattedMessage = applyTextFormatting();
+      setNewMessage("");
+      const { data } = await axios.post(
+        "/api/message",
+        {
+          content: formattedMessage,
+          chatId: selectedChat._id,
+        },
+        config
+      );
+      socket.emit("new message", data);
+      setMessages([...messages, data]);
+    } catch (error) {
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to send the Message",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
     }
-  };
+  }
+};
 
+  
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
@@ -111,8 +147,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
 
-    // eslint-disable-next-line
-  }, []);
+    return () => {
+      socket.off("connected");
+      socket.off("typing");
+      socket.off("stop typing");
+      socket.disconnect();
+    };
+  }, [user]);
 
   useEffect(() => {
     fetchMessages();
@@ -246,6 +287,20 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 value={newMessage}
                 onChange={typingHandler}
               />
+              <Box mt={2}>
+        {/* Add buttons for text formatting */}
+        {textFormattingOptions.map((option) => (
+          <IconButton
+            key={option}
+            aria-label={option}
+            icon={option === "bold" ? <strong>B</strong> : option === "italic" ? <em>I</em> : option === "strike" ? <s>S</s> : <p>L</p>}
+            variant={isFormattingSelected(option) ? "solid" : "outline"}
+            colorScheme={isFormattingSelected(option) ? "blue" : "gray"}
+            onClick={() => toggleTextFormatting(option)}
+            mr={2}
+          />
+        ))}
+      </Box>
             </FormControl>
           </Box>
         </>

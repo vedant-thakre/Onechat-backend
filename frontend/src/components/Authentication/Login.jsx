@@ -86,7 +86,7 @@ const Login = () => {
           <Button isLoading={loading} colorScheme='blue' width='100%' style={{marginTop: 15}} onClick={submitHandler}>
               Login
           </Button>
-          <Button  variant='solid' colorScheme='red' width='100%' onClick={() => { setEmail("guest@example.com"); setPassword("123456"); }}>Get Guest User Credentials</Button>
+          <Button  variant='solid' colorScheme='red' width='100%' onClick={() => { setEmail("guest@example.com"); setPassword("1234"); }}>Get Guest User Credentials</Button>
     </VStack>
   )
 }
