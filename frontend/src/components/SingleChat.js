@@ -17,7 +17,7 @@ import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
-const ENDPOINT = "http://localhost:5000"; 
+const ENDPOINT = "chat-application-blond.vercel.app"; 
 var socket, selectedChatCompare;
 
 const textFormattingOptions = ["bold", "italic", "strike", "link"]; 
