@@ -9,17 +9,6 @@ import {
 } from "../config/ChatLogics";
 import { ChatState } from "../Context/ChatProvider";
 
-const applyTextFormatting = (content) => {
-  // Add your text formatting logic here
-  // For example, to add bold, italic, and strike formatting:
-  const formattedContent = content
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold: **text**
-    .replace(/_(.*?)_/g, "<em>$1</em>") // Italic: _text_
-    .replace(/~~(.*?)~~/g, "<s>$1</s>"); // Strike: ~~text~~
-
-  return formattedContent;
-};
-
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
 
@@ -52,10 +41,9 @@ const ScrollableChat = ({ messages }) => {
                 padding: "5px 15px",
                 maxWidth: "75%",
               }}
-              dangerouslySetInnerHTML={{
-                __html: applyTextFormatting(m.content),
-              }}
-            />
+            >
+              {m.content}
+            </span>
           </div>
         ))}
     </ScrollableFeed>

@@ -15,6 +15,7 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
 
   const toast = useToast();
+
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -46,7 +47,7 @@ const MyChats = ({ fetchAgain }) => {
 
   return (
     <Box
-      d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+      display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -76,13 +77,13 @@ const MyChats = ({ fetchAgain }) => {
           </Button>
         </GroupChatModal>
       </Box>
-       <Box
+      <Box
         display="flex"
         flexDir="column"
         p={3}
         bg="#F8F8F8"
         w="100%"
-        h="90%"
+        h="100%"
         borderRadius="lg"
         overflowY="hidden"
       >
@@ -107,11 +108,9 @@ const MyChats = ({ fetchAgain }) => {
                 {chat.latestMessage && (
                   <Text fontSize="xs">
                     <b>{chat.latestMessage.sender.name} : </b>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: chat.latestMessage.content,
-                      }}
-                    />
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 51) + "..."
+                      : chat.latestMessage.content}
                   </Text>
                 )}
               </Box>
