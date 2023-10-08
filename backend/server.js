@@ -5,17 +5,11 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-// const path = require("path");
-const cors = require("cors");
-
+const path = require("path");
 
 dotenv.config();
 connectDB();
 const app = express();
-
-app.use(cors({
-  origin: "http://localhost:3000"
-}))
 
 app.use(express.json()); // to accept json data
 
@@ -27,16 +21,15 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-/* // --------------------------deployment------------------------------
+// --------------------------deployment------------------------------
 
 const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
 
-  app.get("*", (req, res) => {
+  app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-  }
   );
 } else {
   app.get("/", (req, res) => {
@@ -44,11 +37,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// --------------------------deployment------------------------------ */
-
-app.get("/", (req, res) => {
-  res.send("API is running..");
-});
+// --------------------------deployment------------------------------
 
 // Error Handling middlewares
 app.use(notFound);
@@ -58,7 +47,7 @@ const PORT = process.env.PORT;
 
 const server = app.listen(
   PORT,
-  console.log(`Server running on PORT ${PORT}...`)
+  console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
 const io = require("socket.io")(server, {
