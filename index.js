@@ -5,7 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-const path = require("path");
+// const path = require("path");
 const cors = require("cors");
 
 
@@ -27,7 +27,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-// --------------------------deployment------------------------------
+/* // --------------------------deployment------------------------------
 
 const __dirname1 = path.resolve();
 
@@ -44,7 +44,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// --------------------------deployment------------------------------
+// --------------------------deployment------------------------------ */
 
 // Error Handling middlewares
 app.use(notFound);
