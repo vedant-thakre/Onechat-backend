@@ -46,6 +46,10 @@ if (process.env.NODE_ENV === "production") {
 
 // --------------------------deployment------------------------------ */
 
+app.get("/", (req, res) => {
+  res.send("API is running..");
+});
+
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
