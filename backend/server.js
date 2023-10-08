@@ -6,10 +6,12 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
 
 dotenv.config();
 connectDB();
 const app = express();
+
 
 app.use(express.json()); // to accept json data
 
@@ -21,7 +23,11 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-// --------------------------deployment------------------------------
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
+
+/* // --------------------------deployment------------------------------
 
 const __dirname1 = path.resolve();
 
@@ -37,8 +43,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// --------------------------deployment------------------------------
+// --------------------------deployment------------------------------ */
 
+
+app.get("/", (req, res) => {
+  res.send("API is running..");
+});
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
