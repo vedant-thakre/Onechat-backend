@@ -12,6 +12,9 @@ dotenv.config();
 connectDB();
 const app = express();
 
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
 
 app.use(express.json()); // to accept json data
 
@@ -23,9 +26,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-app.use(cors({
-  origin: "http://localhost:3000"
-}));
 
 /* // --------------------------deployment------------------------------
 
