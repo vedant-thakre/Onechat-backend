@@ -13,7 +13,7 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000"
+  origin: "https://chat-app-frontend-vert.vercel.app"
 }));
 
 app.use(express.json()); // to accept json data
@@ -63,7 +63,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://chat-app-frontend-vert.vercel.app",
     // credentials: true,
   },
 });
